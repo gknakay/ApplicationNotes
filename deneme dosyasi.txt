@@ -1,0 +1,2 @@
+- bu bir deneme dosyasıdır.
+- repoya browser üzerinden bir txt ekledim. 
