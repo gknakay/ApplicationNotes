@@ -4,3 +4,11 @@ atacağım
 bakalım 
 neler
 olacak. 
+
+
+şimdi lokalde bir takım
+değişiklikler yaptım.
+1
+2
+3
+4.
