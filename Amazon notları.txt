@@ -1,0 +1,11 @@
+2 tane behavioral question (?) sordu
+
+- müşteri için yeni bi ürünle geldin mi dedi, external data monetization projesini anlattım.
+- hiç bi ara çalıştığın stakeholder'la bişeyi fail ettin mi ettiysen bunu nasıl düzelttin dedi - burak kuyan'ı anlattım, fiyat tahminleri tutmuyodu ama tutmasını bekliyodu dedim. 
+
+bir sürü spontaneous case sorusu sordu
+warehouse varmış insanlar geceleri çalışmak istemiyormuş, onlara nasıl incentiveler verirsin, bu incentiveleri nasıl kıyaslarsın
+nasıl kpi'lara bakarsın vs. dedi. burası baya zorladı.
+
+sql sorusu sordu, çözdüm. 
+

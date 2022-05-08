@@ -1,0 +1,23 @@
+bias variance tradeoff sordu.
+
+web serviste docker'da RF var ama memory hatası verdi naparsın, treeleri prune etmişler. n_estimators düşürülebilir, sample alınabilir dedim. 
+
+dict verdi bunu tersine çevir dedi. dict.items() kullanmak gerekiyomuş.
+
+word embedding nedir diye sordu. bilemedim.
+
+A/B test yaptın sonuçlarını nasıl kıyaslarsın dedi, bi de neye bakarak kıyaslarsın dedi. Click rate. t-test anova yaparım dedim hı hı dedi. 
+
+["????Sometext??!!!"] bunu ["?Sometext?!"] haline getiren bi fonksiyon yaz dedi.
+bunu bir df'e nasıl uygularsın dedi. df.apply() 
+
+bi tane sql sordu çok basit, ama where condition'a or is null diye ekleme yapmak gerekiyodu. 
+
+precision recall sordu, accuracy sordu. 
+
+deep learning setupında overfiti nasıl engellersin dedi. hidden layersı düşürürüm learning rate'i artırırım early stopping round koyarım dedim. 
+
+kmeans'te K sayısını artırınca varyans nolur dedi. 
+
+yaptığın modellerde ne zaman kalibrasyon ihtiyacı olur dedi. 
+

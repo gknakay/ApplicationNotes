@@ -1,0 +1,89 @@
+clp ve tna tamam, cc risk modeli validasyonda, şu an churn modeli ile uğraşıyoruz. 
+
+
+2 adet propensity modeli: CLP ve TNA
+1 adet CC batık modeli + segmentation
+
+1 - As I mentioned before, I did couple of propensity models for different banking products, for example general purpose loans and cash advances.
+xgboost algoritmasını kullanıyorum. 
+CLP'de önemli değişkenler :
+- credit hunger(number of applications)
+- aylık toplam kredi taksiti tutarı
+- kkb skoru
+- daha önce kullandığı iht. kredisi sayısı
+
+modelleme süreci nasıl:
+- creating the customer base on SQL.
+- making some exclusions
+- the business unit tells us where to look for the data. 
+- risk modeliyse KKB değişkenleri alınıyor. 
+- bad rate değişebiliyor bu bir problem. 
+- hyperparam search yaptık
+- correlation baktık.
+- data quality baktık, mean, median, quartiles. 
+- additive feature selection yaptık, bi yerde auc'de ve recall'da improvement olmayınca ordan kestik. 
+
+data prep aşamasında:
+- çoğu null olanlar
+- çoğu 0 olanlar eleniyor. 
+
+no outlier & missing value treatment. 
+
+kredi kartı risk modelinde önemli değişkenler:
+- income/debt
+- worst account status of all credits
+- total outstanding balance / total limit
+- cc application count in KKB
+- level of education
+- profession
+- age
+
+
+explainability shap'tan geliyor. 
+
+segmentation: 
+elimizde yüzde %x ihtimalle batırır bilgisi var, bir de borcun büyüklüğü var. 
+burda portföyü 5e böldük, bölerken volume ve probability'e göre böldük.
+clusterların belli share'i olmasına dikkat ettik. lift'lerinin yüksek olmasına dikkat ettik. Ortada kalanları da maviye boyadık bi aksiyon almadık.
+
+
+Vodafone:
+
+churn modellerinde neler var: 
+- rakip operatörden gelen sms'ler, 
+- rakip operatörün web sayfasına girmek
+- fatura şoku - overage
+- bad network coverage
+- fiyat olarak aynı tarifeyi diğerlerinden pahalı kullanmak.
+- hotline'lardan aranmak.
+
+adaptive modelde neler var. Pega MCCM getirdi, bu adaptive modelling işini de getirdi, online çalışan naive bayes model getirdi.
+Ben de modeli challenge etmek istedim, canlı yapamayacağımızdan haftalık otomatik çalışan bi model yaptım.
+Mccm datasıyla her tarifeyi kabul ve reddeden abonelerden model kurdum. feature olarak normal müşteri dataları artı mccm datası var, hangi offer'a nasıl respond etti
+son 1 haftada 1 ayda kaç tane teklife baktı shown/impression etc. 
+bunlarla bütün müşteri bazını skorladım, uplift ile çarpıp her aboneye bi teklif getirdim.
+bazı müşterilere bu teklifler gösterildi, daha yüksek take rate ve uplift sağlandı. Çünkü daha iyi bi algoritma ve big data platformunun gücü sayesinde. 
+
+burda bunu ben lead ettim diyim, iş birimini de ben yönlendirdim challenge konusunda.
+aboneler düzgün dağıtılmadı, dağılıma bakıldığında, abone numarasının son hanesine göre ben dağıtttım.
+
+adhoc analizler yapıldı,
+pyspark kullanıldı,
+apache hadoop,
+tableau'da dashboard hazırlandı. to be honest, server için paralı versiyon gerekiyordu biz ss aldık.
+
+
+cv'de 2. maddede real-time churn triggers demişiz. burda bir x olayını yaşayan abone y'yi de yaşayınca churn oranı noluyor diye baktık. 
+hikaye o olayı yaşar yaşamaz promo atmaktı. 
+Model ile ilerleme kararı verdik.
+
+
+kontrol grubu için minimum ne kadar kişi ayırırsın.
+
+
+
+
+
+
+
+

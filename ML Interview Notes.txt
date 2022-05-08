@@ -1,0 +1,142 @@
+- Deep Learning vs ML --> DL daha fazla data istiyor, small datasette çalışmıyor. 
+- DL feature extraction yapıyor, ML'de feature'ları kendin veriyosun.
+- DL GPU kullanıyor ve high-end makinelerde çalışıyor.
+
+- XGB nasıl çalışır onu tekrar tekrar edelim.
+
+- Unsupervised learning -> clustering, dim.reduction, anomaly detection.
+- Supervised classification ve regression olarak 2ye ayrılıyor.
+
+- Causation correlation --> petrol, groceries, inflation. enflasyon ikisinin de fiyatını artırıyor, bu causation, ikisinin de fiyatının artması korelasyon. 
+- classification regression farklı, class. target discrete, diğerinde continuous.
+
+- i.i.d --> independent identically distributed. Bu datasetteki satırların dağılımında geçiyor. 
+
+- Recall -> TP / TP + FN  (pozitiflerin ne kadarına pozitif dedim)
+- Precision -> TP / TP + FP (tüm pozitif dediklerimin ne kadarı pozitif)
+
+- ROC curve plots TPR vs FPR! FPR = FP/(TN+FP) FP/ Negatives
+- PR curve plots PR vs RC. 
+
+-kNN vs kMeans --> kNN supervised kMeans unsupervised learning. kNN classification algoritması, kMeans clustering algoritması.
+				   kMeans clustering yapmaya yarıyor. kNN lazy learning çünkü training aşaması yok.
+				   
+- Feature selectionda neler yaparsın: 
+    - correlated featureları elersin.
+	- lineer regresyon yapılıp p-value'sü küçük olanlarla devam edersin.
+	- forward selection , backward elimination ya da stepwise selection yapılabilir. biz forward selection yapıyoruz. 
+	-
+	
+- SGD nin standard gradient descent'ten farkı nedir. Stokastik olan satır satır bakıp küçük küçük ilerliyor, standart olan batch'ler halinde ilerliyor.
+  ikisinin de amacı loss function'ı minimize etmek. Fakat stokastik olan büyük datasetlerde daha çabuk converge ediyormuş. ama standart olan da daha iyi minimize
+  ediyomuş, heralde stokastik olan local minimum buluyor. 
+  
+- Imbalanced problemlerde ne yaparsın? 
+    - Undersampling.
+	- one class learning algorithm kullanılabilir, isolation forrest mesela. 
+	- asimetrik cost function kullanılabilirmiş training aşamasında. 
+	
+- paired t-test: A/B testingde kullanılıyor, diyor ki mean difference 0 mı değil mi. 
+- p-value: measure of significance. 
+
+- Classification algoritmaları: Decision Trees, Random Forest, kNN, SVM, Naive Bayes, Boosting.
+- SVM: burada doğru kernel'i seçmek sıkıntı, bir de baya ram yiyormuş çünkü bütün support vectorları tutmak zorundalarmış.
+- Naive Bayes neden naive: feature'lar equally important ve conditionally independent varsayımı yapıyor. Gerçekte böyle bi durum yok tabi. 
+- Confusion matrix:
+
+	------------- Predicted 0     Predicted 1
+	Actual 0      TN              FP
+	Actual 1      FN              TP
+	
+	
+- Logistic Regression fits a single hypersurface to split data into 2.
+- Dataset'in küçükse Naive Bayes kullanabilirsin çünkü overfit etmiyor. yoksa Logistic regression, çünkü complex ilişkileri daha iyi çözebiliyor. 
+
+- Decision tree avantajları: Feature selection için iyi çünkü en tepedeki node en önemli feature oluyor. Outlierlardan etkilenmiyor. Easy to understand and interpret. 
+                             Normalizasyon da gerektirmiyor ve nonlinear ilişkilerde de iyi çalışıyor. 
+
+- Decision tree dezavantajları: Overfite meyilli. Bu arkadaş low bias high variance kind of algorithm. 
+
+- Information Gain nedir: Bu arkadaş da split'in yapılacağı en iyi değişkeni bulmakta kullanılıyor.
+						  Tüm feature'lar için bu gain hesaplanıyor ve gain'in en yüksek olduğu feature'dan split ediliyor node. 
+	
+- Entropy nedir: Decision tree'lerde best feature split'i bulma işinde kullanılıyor. Yani feature seçildikten sonra kaçtan büyük mü küçük mü diye bölelim derken kullanılıyor.
+					  
+- Pruning nedir ne işe yarar. Tree'nin complexity'sini düşürmek için yapılır, overfit ihtimalini düşürür. 
+
+- Ensemble learning: Bagging, boosting, stacking. Neden yapılıyor overfiti düşürmek için. Varyans da düşüyor. 
+
+- Bagging vs Boosting: Bagging datadan sample alıp çalışıyor ve paralel çalışabiliyor. Boosting sequential olarak çalışıyor. 
+  Bagging varyansı düşürmek için boosting ise bias'ı düşürmek için yapılıyor. 
+  Boosting'de son ağaç nihai ağaçtır diye bi durum yok, weighting ağacın performansına göre veriliyor. 
+
+- Random Forest daha ziyade multi-class problemler için kullanılıyormuş.
+- SVM sparse datada iyi perform ediyormuş.
+- LR yavaş çalışıyosa learning rate yükseltilebilir. 
+
+- kernel nedir: kernel input'u bir takım fonksiyonlardan geçirip (mapping) çok boyutlu uzaya çeviriyor.   
+- kernel çeşitleri: linear, polynomial, rbf (radial basis func.)
+
+
+- Data preprocessing: 
+  data cleaning: missing values, outliers, removing bad data.
+  data integration: 
+  data transformation: normalizing, standardizing. 
+  data reduction: feature elimination
+  
+- forward selection: çok güzel hoş, ama interaction olayını kaçırıyor.
+- backward elimination: bu da var ama çok time-consuming. 
+
+- model evaluation: 2 türlü metod var:
+	- hold-out: bizim yaptığımız
+	- cross-validation
+	
+- overfiti nasıl çözersin: değişken sayısını azaltarak, cross-validation yaparak. bi de regularization olayı var. 
+- neden accuracy değil de auc --> class imbalanced olunca accuracy anlamsız oluyor. 
+
+- ANN'de overfiti nasıl çözersin: early stopping rounds & regularization. 
+- ANN overfitten baya suffer ediyor. 
+- Perceptron: Hidden layer'sız ANN aslında. 
+- Hidden layer'lar ne işe yarıyor: Mesela bi image verdin içeri, ilk layer edge'leri arıyor, ikinci layer shape'leri arıyor, üçüncüsü de image'ın ne olduğunu söylüyor. 
+- Backpropagation nedir: Her bir batch modele girip çıktıktan sonra hesaplanan error weight'lerin güncellenmesini sağlıyor. Bu arkadaşın düzgün çalışması için
+						 linear activation function olması gerekiyomuş. Sigmoid'te mesela düzgün çalışmıyor diyor. 
+						 
+- LR de aslında bir ANN değil midir diye soruyor: evet single layer bir ANN aslında. Ama LR global minimumu kesinkes buluyormuş, fakat ANN de multilayer olduğunda
+  convexity kayboluyormuş.
+
+- Output layer'da Softmax function neden kullanılıyor, çünkü 0-1 arasında bir değer üretmek için.
+
+- Regularization of DNNs.
+    - Early Stopping: model overfit etmeye başladığında durmak.
+	- Dropout: Train sürecinde bazı random node'ları modelden atmak. Bu şekilde bunlara olan bağımlılığı kesmek.
+	- L1-L2 reg. Bu arkadaşlar cost'a bir lambda ekliyorlar.
+	
+- Adjusted R2 nedir: R2 bi regresyon modelinin ne kadar iyi fit edildiğini ölçen bi değer, fakat modele değişken ekledikçe performans artmamasına rağmen R2 artıyor.
+					 Değişken sayısını da hesaba katan R2 adjusted R2 oluyor. 
+					 
+- Lineer regresyonun assumptionları:
+	Dependent değişken independentlarla lineer bir ilişki içerisinde.
+	residual'lar normally distributed. 
+	multicollinearity yok.
+	mean of residuals is 0.
+
+- KMeans nedir nasıl çalışır: kümeleme algoritması. İlk başta initial kümeler oluşturuyor, sonrasında bunun metriğini hesaplıyor, sonra weightleri güncelleyerek yeni clusterlar
+							  yaratıyor, iyileşme durana kadar devam ediyor. Cluster'ın Centroid'i mean olarak kabul ediliyor. 
+							  
+- Dimensionality reduction: Neden yapılır:
+		- Reduced time and storage for modelling.
+		- removal of multicollinearity for some algorithms.
+
+- Curse of dimensionality: çok feature olunca bazı algoritmalar bunu handle edemiyor.
+
+- NLP
+ keyword normalization: kelimeleri düzgünleştirmek, mesela decoration ve decorated kelimelerini decorate olarak kodluyoruz, ikisi aynı anlama geliyor. 
+						a an the vs. düşürülüyor, punctuation marks düşürülüyor. 
+ POS (Part of Speech) Tagging: Bir cümlede özne yüklem nesne adjective vs. ayrıştırılması.
+
+-TF IDF: Term Frequency - Inverse Document Frequency. 
+-TF: bir kelimenin kaç defa geçtiği / toplam kelime sayısı.
+-IDF: ?
+
+-Ngram muhabbeti: 2-gram kelimelere ikili ikili bakıyor, 3-gram üçlü vs. 
+-Bag of Words: aslında n=1 olan ngram case'i. 

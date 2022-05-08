@@ -1,0 +1,33 @@
+TABLEAU!
+
+RFM mantığı var.
+Ne sıklıkta,
+Ne güncellikte,
+Ne kadar yüksek meblağlarda sipariş veriyor.
+
+kaç kişilik yemek siparişi verdiği önemli.
+ne yediği de önemli.
+
+Facebook bağlamak önemli, yaş ve cinsiyet datası geliyor buradan. 
+
+Churn modellerinde genellikle app kullanma patternine bakılıyor. Girip sipariş vermeden çıkmak ya da sepetten dönmek churn nedeni. 
+
+Müşteri geldiğinde LTV hesabı yapılıyor, burada lokasyon datası önemli, estimation öncelikle buna göre, sonrasında senin verdiğin siparişlerin içeriğine göre yapılıyor.
+
+retention olayı önemli, gitmek üzere olan müşteriye kampanya çıkılmalı, müşteri canlı tutulmalı.
+
+upsell modelleri önemli, müşteri sepeti onaylamadan önce sepet tutarını yükseltici şeyler sunulmalı.
+
+kurye muhabbetinde supply demand önemli, sürekli aktif kurye bulundurmak durumunda,
+karda kışta kuryeye teşvik vermek gerek,
+okullar kapalı olduğunda yine kurye fiyatları artıyor,
+siparişlerin yoğun olduğu yerde kurye fiyatları yüksek olmalı.
+
+PARA NEREDEN GELİYOR?? 
+
+1 - Siparişler üzerinden gelen komisyonlar.
+2 - Delivery & Service fees.
+
+Dashpass: Aylık 10 dolara 12 dolar üzerindeki siparişlerine bu fee'leri ödemiyor müşteri.
+Drive: müşteri kendisi yetiremediğinde Doordash'in drive hizmetini kullanıyor. 
+

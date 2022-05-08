@@ -1,0 +1,19 @@
+
+
+-- yine data engineering soruları
+-- modeli canlıya aldın mı
+-- machine learning pipeline nedir nasıl uyguladın. 
+
+
+-- modeli canlıya aldın diyelim, eskiden 1 mio müşteri geliyodu şimdi 10 mio geliyor, naparsın diye sordu.
+-- kubernetes kullanırım, nginx ile trafiği yönlendiririm. container sayısını artırmamız lazım.  
+
+
+-- latency bi issue olduğunda bunu nasıl çözersin diye sordu. 
+-- neyden kaynaklandığı önemli. algoritmadan kaynaklıysa multiprocessing yapacak şekilde yapmaya çalışırım. Threading işine girerim.
+-- trafik yoğunluğundan da olabilir. onu da nginx çözüyor. diyomuş ki yeni kullanıcı kabul etmiyor yenilere hata mesajı veriyor. 
+
+-- canlıda bi problem olduğunda neye bakarsın nasıl bakarsın.
+-- problemi anlamaya çalışırım. 
+
+-- iki modeli nasıl kıyaslarsın. 

@@ -1,0 +1,231 @@
+select  totaldeliverytimeinsec, hour,
+		sum(totaldeliverytimeinsec) over(partition by hour order by neworderorig) as cum_sum
+from takeaway;
+
+select * from takeaway;
+
+
+with 
+tbl1 as 
+(select date, hour, row_number() over (partition by date, hour order by date, hour) as row_num
+from takeaway), 
+
+tbl2 as
+(select * from takeaway)
+
+select a.*, b.row_num
+from tbl2 as a
+left join tbl1 as b
+on a.date = b.date and a.hour = b.hour;
+
+with 
+tbl1 as
+(select restaurantid, ROUND(avg(totaldeliverytimeinsec) , 2) as avg_deli_time
+from takeaway
+group by restaurantid),
+
+tbl2 as
+(select a.*, ntile(100) over (order by avg_deli_time)
+ from tbl1 as a),
+ 
+tbl3 as 
+(select a.*, lead(avg_deli_time,3) over (order by avg_deli_time) as lead
+from tbl2 a)
+ 
+select * from tbl3;
+
+
+select * from takeaway;
+
+select cityid, 
+		date,
+		EXTRACT('year' FROM neworderorig) AS year,
+		EXTRACT('month' FROM neworderorig) AS month,
+		EXTRACT('day' FROM neworderorig) AS day,
+		substr(cityid, 3,2) as cityid2,
+		position('a' in cityid) as position,
+		concat(cityid, dayofweek) as concat_example,
+		trim(both '2' from date) as trim_example, --leading, trailing de olabilir both yerine.
+		upper(dayofweek) as upper_dayofweek,
+		tdtinprevhourinrest,
+		coalesce(tdtinprevhourinrest, 9999) as coalesce_example
+		
+from takeaway;		
+
+SELECT CURRENT_DATE AS date,
+       CURRENT_TIME AS time,
+       CURRENT_TIMESTAMP AS timestamp,
+       LOCALTIME AS localtime,
+       LOCALTIMESTAMP AS localtimestamp,
+       NOW() AS now;
+
+with 
+tbl1 as(
+select restaurantid, 			
+		EXTRACT('month' FROM neworderorig) AS month,
+		hour,
+		max(totaldeliverytimeinsec)
+from takeaway
+group by 1,2,3),
+
+tbl2 as (
+select *, EXTRACT('month' FROM neworderorig) AS month
+from takeaway),
+
+tbl3 as (
+select a.* 
+from tbl2 a
+inner join tbl1 b
+on a.restaurantid = b.restaurantid
+and a.month = b.month
+and a.hour = b.hour
+and b.max = a.totaldeliverytimeinsec)
+
+select * from tbl3;
+
+select restaurantid,
+		date,
+		hour,
+		neworderorig,
+		totaldeliverytimeinsec,
+		avg(totaldeliverytimeinsec) over ntile_window,
+		count(totaldeliverytimeinsec) over ntile_window,
+		sum(totaldeliverytimeinsec) over ntile_window
+from takeaway
+window ntile_window as (partition by restaurantid, date order by neworderorig)
+order by 1,2,3;
+
+
+
+-- diff of two timestamps
+select EXTRACT(EPOCH FROM (neworderorig - lagged ) / 60)
+
+
+
+
+
+
+
+
+
+
+sadfasf
+
+Table: deliveries
+
+column_name                 type        comments
+delivery_id                 int        --id of delivery
+order_created_at            timestamp  --time order was created
+predicted_store_pickup_time timestamp  --time food is predicted to be ready for pickup
+actual_store_pickup_at      timestamp  --time food was picked up by dasher
+requested_delivery_time     timestamp  --time consumer requested food be delivered
+dasher_id                   int        --id of dasher / deliverer
+restaurant_id               int        --id of restaurant
+consumer_id                 int        --id of consumer
+
+
+Q1: Assume there are two kinds of deliveries: “Immediate” and “Scheduled.” A delivery is “Immediate” if the requested delivery time is within an hour of when the delivery is created, while it is “Scheduled” if the requested delivery time is beyond an hour. What % of total deliveries are “Immediate?” 
+
+
+
+with tbl1 as
+(select delivery_id, case when requested_delivery_time - order_created_at >= 60 then 1 else 0 end as 'scheduled'
+                , case when requested_delivery_time - order_created_at < 60 then 1 else 0 end as 'immediate'
+from deliveries)
+
+select avg(immediate) percentage
+from tbl1
+
+Q2: What % of total consumers requested an “Immediate” delivery for their first ever delivery? 
+
+with 
+tbl1 as
+(select consumer_id, order_created_at, delivery_id
+    row_number(order_created_at) over (partition by consumer_id order by order_created_at asc) as row_num
+from deliveries),
+
+tbl2 as
+(select * from deliveries a
+inner join tbl1 b
+on a.consumer_id = b.consumer_id
+and a.order_created_at = b.order_created_at
+where b.row_num = 1),
+
+tbl3 as
+(select avg(case when requested_delivery_time - order_created_at < 60 then 1 else 0 end) immediate_percent
+from tbl2)
+
+
+Q3: We want to understand the quality of operations at Bob’s Burgers (restaurant_id 8), particularly their order accuracy. When restaurants have poor order accuracy, they see an uptick in customer complaints. 
+
+New table of customer complaints:
+Table name: customer_complaints
+
+delivery_id             int        --id of delivery
+complaint_id            int        --id of complaint
+complaint_created_at    timestamp  --time complaint was created 
+
+Using the ‘customer_complaints’ table above, and the ‘deliveries’ table above, compare the monthly rate of complaints (per order) for Bob’s Burgers (restaurant_id 8) to DoorDash’s company complaint rate. We would like the final dataframe to be: Month, Bob’s Burgers Complaint Rate, and the Company Complaint Rate, all in the same table.   
+
+
+with 
+
+tbl1 as
+(select extract('year' from order_created_at)*100 + extract('month' from order_created_at) as year_month, case when complaint_id is not null then 1 else 0 end complaint_flag
+from deliveries a
+left join customer_complaints b
+on a.delivery_id = b.delivery_id  
+where restaurant_id = '8'),
+
+
+tbl2 as
+(select extract('year' from order_created_at)*100 + extract('month' from order_created_at) as year_month, case when complaint_id is not null then 1 else 0 end complaint_flag
+from deliveries a
+left join customer_complaints b
+on a.delivery_id = b.delivery_id),
+
+
+tbl3 as(
+    select year_month, avg(complaint_flag) as monthly_complaint_flag_bob
+    from tbl1 
+    group by 1
+),
+
+tbl4 as(
+    select year_month, avg(complaint_flag) as monthly_complaint_flag_company
+    from tbl2
+    group by 1
+)
+
+select year_month, monthly_complaint_flag_bob, monthly_complaint_flag_company
+from tbl3 a
+left join tbl4 b
+on a.year_month = b.year_month
+
+
+
+Q4: We want to better understand order volume for Bob’s Burgers (restaurant_id 8) in the period between June 1, 2019 and June 30, 2019 (inclusive): 
+
+1) Can you show the number of deliveries Bob’s Burgers received every day during that time period? 
+
+
+with tbl1 as (
+select extract('day' from order_created_at) day_of_month, count(delivery_id) order_count
+from deliveries
+where order_created_at between '2019-06-01' and '2019-06-30'
+and restaurant_id = '8'
+group by 1) ;
+
+
+2) Can you create a column that displays a rolling sum of Bob’s Burgers deliveries to date? Example: if we did 2 orders on June 1st and 3 orders on June 2nd, our orders to date on June 2nd would be 5 orders. 
+
+select day_of_month, sum(order_count) over (order by day_of_month )
+from tbl1
+order by 1;
+
+
+
+
+
+		 
+	   
